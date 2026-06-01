@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="todo-container">
+        <h1>My Todo List</h1>
+        
+        <div class="week-header">
+            <button id="prev-week-btn" class="nav-btn">&lt;</button>
+            <span id="month-display" class="month-title"></span>
+            <button id="next-week-btn" class="nav-btn">&gt;</button>
+        </div>
+
+        <div id="week-days-container" class="week-days"></div>
+        
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="새로운 할 일을 입력하세요..." autocomplete="off">
+            <button type="submit" id="add-btn">추가</button>
+        </form>
+
+        <div class="tab-container">
+            <button class="tab-btn active" data-filter="all">전체</button>
+            <button class="tab-btn" data-filter="active">진행 중</button>
+            <button class="tab-btn" data-filter="completed">완료</button>
+        </div>
+        
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

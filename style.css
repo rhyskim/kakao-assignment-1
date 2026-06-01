@@ -1,0 +1,309 @@
+/* 기본 여백 초기화 및 박스 사이징 설정 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 화면 중앙 정렬을 위한 바디 스타일 */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 미니멀한 생산성 앱 스타일의 메인 컨테이너 */
+.todo-container {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 460px;
+}
+
+/* 타이틀 디자인 */
+h1 {
+    color: #1a1a1a;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* 주간 내비게이션 헤더 레이아웃 */
+.week-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+/* 연도 및 월 표시 텍스트 */
+.month-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+/* 주차 이동 화살표 버튼 */
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #672be0;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.nav-btn:hover {
+    background-color: #f0ebfa;
+}
+
+/* 주간 캘린더 가로 나열 패널 */
+.week-days {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+
+/* 개별 날짜 카드 버튼 디자인 */
+.day-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    background-color: #f8f9fa;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.day-card:hover {
+    background-color: #f1f3f5;
+}
+
+/* 요일 텍스트 (월, 화, 수...) */
+.day-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #718096;
+    margin-bottom: 4px;
+}
+
+/* 일자 텍스트 (1, 2, 3...) */
+.day-date {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 6px;
+}
+
+/* 날짜별 할 일 개수 배지 */
+.todo-badge {
+    font-size: 10px;
+    font-weight: 600;
+    color: #718096;
+    background-color: #e2e8f0;
+    padding: 1px 6px;
+    border-radius: 20px;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* 오늘(Today) 날짜 시각적 구분 스타일 */
+.day-card.today {
+    border-color: #e2d7f7;
+    background-color: #fbfaff;
+}
+.day-card.today .day-date {
+    color: #672be0;
+}
+
+/* 마우스로 선택된 날짜의 활성화 스타일 (메인 컬러 #672be0 전체 적용) */
+.day-card.active {
+    background-color: #672be0;
+    border-color: #672be0;
+}
+.day-card.active .day-name {
+    color: #e2d7f7;
+}
+.day-card.active .day-date {
+    color: #ffffff;
+}
+.day-card.active .todo-badge {
+    background-color: #ffffff;
+    color: #672be0;
+}
+
+/* 입력창과 버튼을 배치할 폼 레이아웃 */
+#todo-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* 텍스트 입력창 스타일 */
+#todo-input {
+    flex: 1;
+    padding: 14px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+#todo-input:focus {
+    border-color: #672be0;
+}
+
+/* 추가 버튼 스타일 */
+#add-btn {
+    background-color: #672be0;
+    color: #ffffff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+#add-btn:hover {
+    background-color: #5322b5;
+}
+
+/* 탭 메뉴 컨테이너 */
+.tab-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    background-color: #f1f3f5;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+/* 기본 탭 버튼 디자인 */
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-size: 13px;
+    color: #495057;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+/* 선택된 현재 탭의 시각적 구분 스타일 */
+.tab-btn.active {
+    background-color: #672be0;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(103, 43, 224, 0.2);
+}
+
+/* Todo 리스트 구조 */
+#todo-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 개별 Todo 아이템 카드 스타일 */
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background-color: #fdfdfd;
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+/* Todo 텍스트 기본 스타일 */
+.todo-text {
+    font-size: 15px;
+    color: #2d3748;
+    flex: 1;
+    word-break: break-all;
+    margin-right: 12px;
+}
+
+/* 완료된 Todo 텍스트 스타일 */
+.todo-text.completed {
+    text-decoration: line-through;
+    color: #a0aec0;
+}
+
+/* [신규 스타일] 빈 상태(데이터 없음) 문구 디자인 */
+.empty-state {
+    text-align: center;
+    padding: 40px 16px;
+    color: #a0aec0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    border: 1px dashed #e2e8f0;
+    border-radius: 10px;
+}
+
+/* 버튼들을 묶어주는 그룹 */
+.btn-group {
+    display: flex;
+    gap: 6px;
+}
+
+/* 작업 버튼 공통 스타일 */
+.action-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+/* 완료 버튼 스타일 */
+.complete-btn {
+    background-color: #f0ebfa;
+    color: #672be0;
+}
+.complete-btn:hover {
+    background-color: #e2d7f7;
+}
+
+/* 수정 버튼 스타일 */
+.edit-btn {
+    background-color: #f7fafc;
+    color: #4a5568;
+}
+.edit-btn:hover {
+    background-color: #edf2f7;
+}
+
+/* 삭제 버튼 스타일 */
+.delete-btn {
+    background-color: #fff5f5;
+    color: #e53e3e;
+}
+.delete-btn:hover {
+    background-color: #fed7d7;
+}
