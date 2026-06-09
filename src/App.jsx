@@ -3,6 +3,7 @@ import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
 import FilterTabs from './components/FilterTabs';
 import DateNavigator from './components/DateNavigator';
+import WeeklyView from './components/WeeklyView';
 import AlertModal from './components/AlertModal';
 import { getFormattedDateKey } from './utils/date';
 import { Todo } from './models/Todo';
@@ -48,12 +49,12 @@ export default function App() {
 
   const selectedDateKey = getFormattedDateKey(selectedDate);
 
-  // Todo 추가 처리 함수 (로컬스토리지 중복 호출 없음)
+  // Todo 추가 처리 함수
   const handleAddTodo = (newTodo) => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
-  // Todo 완료 상태 토글 함수 (로컬스토리지 중복 호출 없음)
+  // Todo 완료 상태 토글 함수
   const handleToggleTodo = (id) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -64,7 +65,7 @@ export default function App() {
     );
   };
 
-  // Todo 내용 수정 함수 (로컬스토리지 중복 호출 없음)
+  // Todo 내용 수정 함수 (1차 과제 버그인 "수정 후 완료 처리 시 데이터 누락 버그" 방지)
   const handleUpdateTodo = (id, newText) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -75,12 +76,12 @@ export default function App() {
     );
   };
 
-  // Todo 삭제 처리 함수 (로컬스토리지 중복 호출 없음)
+  // Todo 삭제 처리 함수
   const handleDeleteTodo = (id) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
-  // 날짜 변경 이동 함수
+  // 날짜 변경 이동 함수 (주간 뷰와 일간 뷰가 이 상태를 동기화하여 연동됨)
   const handleNavigateDate = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -125,6 +126,13 @@ export default function App() {
           </h1>
         </header>
 
+        {/* [도전 미션] 주간 뷰 캘린더 (날짜 상태 동기화 및 Todo 개수 배지) */}
+        <WeeklyView
+          selectedDate={selectedDate}
+          onNavigate={handleNavigateDate}
+          todos={todos}
+        />
+
         {/* KST 기준 날짜 제어 및 오늘 이동 내비게이터 */}
         <DateNavigator
           selectedDate={selectedDate}
@@ -144,7 +152,7 @@ export default function App() {
           onShowAlert={handleShowAlert}
         />
 
-        {/* 할 일 목록 컴포넌트 */}
+        {/* 할 일 목록 컴포넌트 (필터링된 목록만 전달하여 렌더링) */}
         <TodoList
           todos={filteredTodos}
           onToggle={handleToggleTodo}
