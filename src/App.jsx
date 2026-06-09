@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
 import FilterTabs from './components/FilterTabs';
@@ -11,8 +11,23 @@ import { Todo } from './models/Todo';
  * React 마이그레이션 메인 App 컴포넌트
  */
 export default function App() {
-  // 규칙 준수: useState 함수형 초기화를 통해 불필요한 초기 렌더링 최소화
-  const [todos, setTodos] = useState(() => []);
+  // 규칙 준수: useState 함수형 초기화 내부에서 로컬스토리지를 조회하고 클래스 인스턴스로 복원(rehydration)
+  const [todos, setTodos] = useState(() => {
+    try {
+      const savedTodos = localStorage.getItem('todos');
+      if (savedTodos) {
+        const parsed = JSON.parse(savedTodos);
+        if (Array.isArray(parsed)) {
+          // 단순 객체 배열을 Todo 클래스의 인스턴스 배열로 안전하게 맵핑 복원
+          return parsed.map((item) => Todo.from(item));
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load todos from localStorage:', error);
+    }
+    return [];
+  });
+
   const [selectedDate, setSelectedDate] = useState(() => new Date());
   const [filter, setFilter] = useState(() => 'all');
   
@@ -22,14 +37,23 @@ export default function App() {
     message: '',
   }));
 
+  // [자동 저장] todos 상태가 변경될 때마다 의존성 배열에 맞춰 로컬스토리지에 자동 저장
+  useEffect(() => {
+    try {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    } catch (error) {
+      console.error('Failed to save todos to localStorage:', error);
+    }
+  }, [todos]);
+
   const selectedDateKey = getFormattedDateKey(selectedDate);
 
-  // Todo 추가 처리 함수
+  // Todo 추가 처리 함수 (로컬스토리지 중복 호출 없음)
   const handleAddTodo = (newTodo) => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
-  // Todo 완료 상태 토글 함수
+  // Todo 완료 상태 토글 함수 (로컬스토리지 중복 호출 없음)
   const handleToggleTodo = (id) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -40,7 +64,7 @@ export default function App() {
     );
   };
 
-  // Todo 내용 수정 함수 (1차 과제 버그인 "수정 후 완료 처리 시 데이터 누락 버그" 방지)
+  // Todo 내용 수정 함수 (로컬스토리지 중복 호출 없음)
   const handleUpdateTodo = (id, newText) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -51,7 +75,7 @@ export default function App() {
     );
   };
 
-  // Todo 삭제 처리 함수
+  // Todo 삭제 처리 함수 (로컬스토리지 중복 호출 없음)
   const handleDeleteTodo = (id) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
@@ -120,7 +144,7 @@ export default function App() {
           onShowAlert={handleShowAlert}
         />
 
-        {/* 할 일 목록 컴포넌트 (필터링된 목록만 전달하여 렌더링) */}
+        {/* 할 일 목록 컴포넌트 */}
         <TodoList
           todos={filteredTodos}
           onToggle={handleToggleTodo}
