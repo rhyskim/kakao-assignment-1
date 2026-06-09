@@ -21,7 +21,7 @@
   - 빈 값 입력 시 모달 알림 UI 구현.
 - [x] **Step 2.2: Todo 목록 렌더링 및 완료/삭제 (Read, Update, Delete)**
   - `map()` 함수 사용 시 고유 `key`값으로 `todo.id` 부여.
-- [ ] **Step 2.3: 인라인 수정 기능 (isEditing)**
+- [x] **Step 2.3: 인라인 수정 기능 (isEditing)**
   - 1차 과제의 `prompt()` 방식을 제거하고, `isEditing` 상태에 따른 인라인 input 전환 UI 구현.
   - 1차 과제 버그인 "수정 미작동 오류"가 발생하지 않도록 상태 업데이트 흐름 보장.
 
