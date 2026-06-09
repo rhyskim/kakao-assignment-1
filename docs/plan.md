@@ -17,7 +17,7 @@
   - 멘토 피드백 반영: Todo 객체의 구조를 보장할 `Todo` 클래스 선언 (`id`, `content`, `date`, `status` 등).
 
 ### [Phase 2] 필수 미션: Todo CRUD 마이그레이션
-- [ ] **Step 2.1: Todo 추가 및 예외 처리 (Create)**
+- [x] **Step 2.1: Todo 추가 및 예외 처리 (Create)**
   - 빈 값 입력 시 모달 알림 UI 구현.
 - [ ] **Step 2.2: Todo 목록 렌더링 및 완료/삭제 (Read, Update, Delete)**
   - `map()` 함수 사용 시 고유 `key`값으로 `todo.id` 부여.
