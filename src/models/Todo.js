@@ -14,4 +14,15 @@ export class Todo {
     this.completed = false;
     this.date = date;
   }
+
+  /**
+   * 일반 객체 데이터를 바탕으로 Todo 클래스 인스턴스를 재생성하는 팩토리 메서드
+   * @param {Object} data 
+   * @returns {Todo}
+   */
+  static from(data) {
+    const instance = Object.create(Todo.prototype);
+    return Object.assign(instance, data);
+  }
 }
+
