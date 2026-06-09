@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { getMondayOfThisWeek, getFormattedDateKey, isActualToday } from '../utils/date';
 
 /**
@@ -30,6 +30,15 @@ export default function WeeklyView({ selectedDate, onNavigate, todos }) {
     onNavigate(nextWeek);
   };
 
+  // [성능 최적화] O(N) 복잡도의 날짜별 카운트 맵 생성 (리뷰어 피드백 반영)
+  const countByDate = useMemo(() => {
+    const counts = {};
+    todos.forEach((todo) => {
+      counts[todo.date] = (counts[todo.date] || 0) + 1;
+    });
+    return counts;
+  }, [todos]);
+
   // 주간 날짜 데이터 목록 생성 (7일 루프)
   const weekDays = Array.from({ length: 7 }, (_, i) => {
     const targetDay = new Date(monday);
@@ -37,7 +46,9 @@ export default function WeeklyView({ selectedDate, onNavigate, todos }) {
     const dateKey = getFormattedDateKey(targetDay);
     const isToday = isActualToday(targetDay);
     const isActive = dateKey === getFormattedDateKey(selectedDate);
-    const todoCount = todos.filter((todo) => todo.date === dateKey).length;
+    
+    // O(1) 해시 테이블 룩업으로 성능 향상
+    const todoCount = countByDate[dateKey] || 0;
 
     return {
       dateObj: targetDay,
@@ -60,7 +71,6 @@ export default function WeeklyView({ selectedDate, onNavigate, todos }) {
           className="p-2 rounded-xl text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 active:bg-zinc-200 transition-colors cursor-pointer"
           aria-label="이전 주차로 이동"
         >
-          {/* 이전 주 더블 쉐브론 아이콘 */}
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
           </svg>
@@ -76,7 +86,6 @@ export default function WeeklyView({ selectedDate, onNavigate, todos }) {
           className="p-2 rounded-xl text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 active:bg-zinc-200 transition-colors cursor-pointer"
           aria-label="다음 주차로 이동"
         >
-          {/* 다음 주 더블 쉐브론 아이콘 */}
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
           </svg>

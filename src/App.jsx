@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
 import FilterTabs from './components/FilterTabs';
@@ -12,7 +12,7 @@ import { Todo } from './models/Todo';
  * React 마이그레이션 메인 App 컴포넌트
  */
 export default function App() {
-  // 규칙 준수: useState 함수형 초기화 내부에서 로컬스토리지를 조회하고 클래스 인스턴스로 복원(rehydration)
+  // 규칙 준수: 복잡한 초기화 연산(로컬스토리지 로드 및 인스턴스 복원)을 수행하는 todos는 함수형 초기화 유지
   const [todos, setTodos] = useState(() => {
     try {
       const savedTodos = localStorage.getItem('todos');
@@ -29,14 +29,13 @@ export default function App() {
     return [];
   });
 
-  const [selectedDate, setSelectedDate] = useState(() => new Date());
-  const [filter, setFilter] = useState(() => 'all');
-  
-  // 알림 모달 상태 (함수형 초기화)
-  const [modalState, setModalState] = useState(() => ({
+  // 단순 원시값이나 일반 객체 초기화는 일반 useState로 리팩토링 (리뷰어 피드백 반영)
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [filter, setFilter] = useState('all');
+  const [modalState, setModalState] = useState({
     isOpen: false,
     message: '',
-  }));
+  });
 
   // [자동 저장] todos 상태가 변경될 때마다 의존성 배열에 맞춰 로컬스토리지에 자동 저장
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function App() {
     );
   };
 
-  // Todo 내용 수정 함수 (1차 과제 버그인 "수정 후 완료 처리 시 데이터 누락 버그" 방지)
+  // Todo 내용 수정 함수
   const handleUpdateTodo = (id, newText) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -81,7 +80,7 @@ export default function App() {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
-  // 날짜 변경 이동 함수 (주간 뷰와 일간 뷰가 이 상태를 동기화하여 연동됨)
+  // 날짜 변경 이동 함수
   const handleNavigateDate = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -101,19 +100,21 @@ export default function App() {
     setModalState({ isOpen: true, message });
   };
 
-  // [데이터 연동 및 필터링 핵심 로직] 선택 날짜에 해당하면서 상태별 필터 탭에 일치하는 항목 도출
-  const filteredTodos = todos.filter((todo) => {
-    const isSameDate = todo.date === selectedDateKey;
-    if (!isSameDate) return false;
+  // [성능 최적화] useMemo를 활용한 복합 데이터 필터링 연산 최적화 (리뷰어 피드백 반영)
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => {
+      const isSameDate = todo.date === selectedDateKey;
+      if (!isSameDate) return false;
 
-    if (filter === 'active') {
-      return !todo.completed;
-    }
-    if (filter === 'completed') {
-      return todo.completed;
-    }
-    return true; // 'all'
-  });
+      if (filter === 'active') {
+        return !todo.completed;
+      }
+      if (filter === 'completed') {
+        return todo.completed;
+      }
+      return true; // 'all'
+    });
+  }, [todos, selectedDateKey, filter]);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col items-center py-12 px-4 transition-colors duration-300">
@@ -126,7 +127,7 @@ export default function App() {
           </h1>
         </header>
 
-        {/* [도전 미션] 주간 뷰 캘린더 (날짜 상태 동기화 및 Todo 개수 배지) */}
+        {/* 주간 뷰 캘린더 */}
         <WeeklyView
           selectedDate={selectedDate}
           onNavigate={handleNavigateDate}
@@ -152,7 +153,7 @@ export default function App() {
           onShowAlert={handleShowAlert}
         />
 
-        {/* 할 일 목록 컴포넌트 (필터링된 목록만 전달하여 렌더링) */}
+        {/* 할 일 목록 컴포넌트 */}
         <TodoList
           todos={filteredTodos}
           onToggle={handleToggleTodo}
