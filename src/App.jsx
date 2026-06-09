@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import TodoInput from './components/TodoInput';
+import TodoList from './components/TodoList';
 import AlertModal from './components/AlertModal';
 import { getFormattedDateKey } from './utils/date';
+import { Todo } from './models/Todo';
 
 /**
  * React 마이그레이션 메인 App 컴포넌트
@@ -22,6 +24,22 @@ export default function App() {
   // Todo 추가 처리 함수
   const handleAddTodo = (newTodo) => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
+  };
+
+  // Todo 완료 상태 토글 함수
+  const handleToggleTodo = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id
+          ? Todo.from({ ...todo, completed: !todo.completed }) // 클래스 인스턴스 구조 보장
+          : todo
+      )
+    );
+  };
+
+  // Todo 삭제 처리 함수
+  const handleDeleteTodo = (id) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   // 모달 닫기 핸들러
@@ -55,33 +73,12 @@ export default function App() {
           onShowAlert={handleShowAlert}
         />
 
-        {/* 할 일 목록 임시 확인 영역 (Step 2.1 추가 검증용) */}
-        <main className="mt-6">
-          <h2 className="text-lg font-bold text-zinc-800 dark:text-zinc-200 mb-4 border-b border-zinc-100 dark:border-zinc-850 pb-2">
-            등록된 할 일 (개수: {todos.length})
-          </h2>
-          {todos.length === 0 ? (
-            <p className="text-sm text-zinc-400 dark:text-zinc-500 text-center py-4">
-              아직 등록된 할 일이 없습니다.
-            </p>
-          ) : (
-            <ul className="space-y-3">
-              {todos.map((todo) => (
-                <li
-                  key={todo.id}
-                  className="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-100 dark:border-zinc-850"
-                >
-                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200 break-all">
-                    {todo.text}
-                  </span>
-                  <span className="text-xs text-zinc-400 dark:text-zinc-500 ml-2 whitespace-nowrap bg-zinc-200/40 dark:bg-zinc-800/80 px-2.5 py-1 rounded-lg">
-                    {todo.date}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </main>
+        {/* 할 일 목록 컴포넌트 */}
+        <TodoList
+          todos={todos}
+          onToggle={handleToggleTodo}
+          onDelete={handleDeleteTodo}
+        />
 
       </div>
 
