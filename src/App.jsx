@@ -37,6 +37,17 @@ export default function App() {
     );
   };
 
+  // Todo 내용 수정 함수 (1차 과제 버그인 "수정 후 완료 처리 시 데이터 누락 버그" 방지)
+  const handleUpdateTodo = (id, newText) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id
+          ? Todo.from({ ...todo, text: newText }) // 클래스 인스턴스 구조 보장
+          : todo
+      )
+    );
+  };
+
   // Todo 삭제 처리 함수
   const handleDeleteTodo = (id) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
@@ -77,7 +88,9 @@ export default function App() {
         <TodoList
           todos={todos}
           onToggle={handleToggleTodo}
+          onUpdate={handleUpdateTodo}
           onDelete={handleDeleteTodo}
+          onShowAlert={handleShowAlert}
         />
 
       </div>

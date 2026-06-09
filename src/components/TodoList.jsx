@@ -6,9 +6,11 @@ import TodoItem from './TodoItem';
  * @param {Object} props
  * @param {Array} props.todos - Todo 인스턴스 배열
  * @param {Function} props.onToggle - 완료 상태 토글 함수
+ * @param {Function} props.onUpdate - 내용 수정 함수
  * @param {Function} props.onDelete - 삭제 함수
+ * @param {Function} props.onShowAlert - 알림창 표시 함수
  */
-export default function TodoList({ todos, onToggle, onDelete }) {
+export default function TodoList({ todos, onToggle, onUpdate, onDelete, onShowAlert }) {
   return (
     <main className="mt-6">
       <h2 className="text-lg font-bold text-zinc-800 dark:text-zinc-200 mb-4 border-b border-zinc-100 dark:border-zinc-850 pb-2">
@@ -26,7 +28,9 @@ export default function TodoList({ todos, onToggle, onDelete }) {
               key={todo.id} // 규칙 준수: map() 사용 시 고유 key로 id 부여
               todo={todo}
               onToggle={onToggle}
+              onUpdate={onUpdate}
               onDelete={onDelete}
+              onShowAlert={onShowAlert}
             />
           ))}
         </ul>
