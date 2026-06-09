@@ -1,10 +1,10 @@
-# 📝 React Todo 마이그레이션 프로젝트
+# React Todo 마이그레이션 프로젝트
 
 기존의 Vanilla JS 단일 파일 구조의 Todo 애플리케이션을 **React + Tailwind CSS v4** 최신 아키텍처로 안전하게 마이그레이션하고 고도화한 프로젝트입니다. 
 
 ---
 
-## 🚀 주요 기능 및 핵심 특징
+## 주요 기능 및 핵심 특징
 
 1. **데이터 모델링 (Class 구조화)**
    - 단순 Object Literal 형식이 아닌 `Todo` 클래스를 정의하여 객체 생성 책임을 분리하고, 상태 전이 시에도 클래스 프로토타입 체인이 훼손되지 않도록 설계했습니다. (`Todo.from` 팩토리 메서드 도입)
@@ -23,7 +23,7 @@
 
 ---
 
-## 🛠 기술 스택
+## 기술 스택
 
 - **Framework / Bundler:** React 18, Vite
 - **Styling:** Tailwind CSS v4 (with `@tailwindcss/vite` plugin)
@@ -31,7 +31,7 @@
 
 ---
 
-## 💻 실행 방법
+## 실행 방법
 
 ### 1. 의존성 패키지 설치
 ```bash
@@ -50,7 +50,7 @@ npm run build
 
 ---
 
-## 📂 프로젝트 폴더 구조
+## 📂 프로젝트 폴더 구조(AI로 작성했습니다)
 
 ```text
 todo-vanilla/
