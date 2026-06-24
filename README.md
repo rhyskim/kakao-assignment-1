@@ -1,11 +1,11 @@
-# 📝 과제 3. Next.js로 Todo 앱 만들기
+# 과제 3. Next.js로 Todo 앱 만들기
 
 과제 2에서 React(Vite)로 만든 Todo 앱을 **Next.js App Router + FastAPI** 풀스택 구조로 재구현하는 과제예요.  
 파일 기반 라우팅, Server/Client Component 구분, FastAPI 백엔드 연동 흐름을 직접 경험해봐요.
 
 ---
 
-## 🚀 실행 방법
+## 실행 방법
 
 ### 백엔드 (FastAPI)
 
@@ -55,7 +55,7 @@ npm run dev
 
 ---
 
-## 📁 프로젝트 구조
+## 프로젝트 구조
 
 ```
 kakao-assignment-3/
@@ -94,7 +94,7 @@ kakao-assignment-3/
 
 ---
 
-## ✅ 구현 기능
+## 구현 기능
 
 ### 기본 미션
 - **Todo CRUD** — 생성 / 조회 / 수정 / 삭제 전체 구현
@@ -113,7 +113,7 @@ kakao-assignment-3/
 
 ---
 
-## 🛠️ 활용 스택
+## 활용 스택
 
 | 프론트엔드 | 백엔드 |
 |-----------|--------|
@@ -125,7 +125,7 @@ kakao-assignment-3/
 
 ---
 
-## 🌐 API 엔드포인트
+## API 엔드포인트
 
 | Method | URL | 설명 |
 |--------|-----|------|
@@ -137,7 +137,7 @@ kakao-assignment-3/
 
 ---
 
-## 📌 참고사항
+## 참고사항
 
 - 본 과제는 AI 도구(Antigravity)를 활용해 구현했어요
 - 과제 2(React + Vite)와 동일한 기능을 Next.js App Router + FastAPI 풀스택으로 재구현한 버전이에요
